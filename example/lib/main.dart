@@ -28,8 +28,8 @@ class _MyAppState extends State<MyApp> {
           child: RaisedButton(
             child: Text("Enviar SMS"),
             onPressed: () async {
-              String phoneNumber = "";
-              String message = "";
+              String phoneNumber = "6012";
+              String message = "saldo";
               Sendsms.onSendSMS(phoneNumber, message);
             },
           ),

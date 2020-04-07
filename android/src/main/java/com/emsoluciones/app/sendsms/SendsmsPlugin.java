@@ -28,12 +28,6 @@ public class SendsmsPlugin implements MethodCallHandler {
         this.activity = activity;
         this.methodChannel = methodChannel;
         this.methodChannel.setMethodCallHandler(this);
-
-        // Solicitud de Permiso
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SEND_SMS,}, 1000);
-        }
-
     }
 
     public static void registerWith(Registrar registrar) {
@@ -44,6 +38,11 @@ public class SendsmsPlugin implements MethodCallHandler {
     
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+
+        // Solicitud de Permiso
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SEND_SMS,}, 1000);
+        }
 
         if (call.method.equals("sendSMS")) {
             try {
