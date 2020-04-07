@@ -9,7 +9,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
   @override
   void initState() {
     super.initState();
@@ -20,20 +19,21 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          centerTitle: true,
+          title: const Text('Envio SMS desde la aplicación'),
         ),
-        body: Column(
-          children: <Widget>[            
-            RaisedButton(
-              child: Text("Enviar SMS"),
-              onPressed: () async{
-                String phoneNumber = "";
-                String message = "";
-                await Sendsms.onSendSMS(phoneNumber, message);
-              },
-            )
-          ],
-        )
+        body: Container(
+          padding: EdgeInsets.all(15),
+          width: double.infinity,
+          child: RaisedButton(
+            child: Text("Enviar SMS"),
+            onPressed: () async {
+              String phoneNumber = "";
+              String message = "";
+              Sendsms.onSendSMS(phoneNumber, message);
+            },
+          ),
+        ),
       ),
     );
   }

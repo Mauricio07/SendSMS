@@ -4,10 +4,6 @@ Envio SMS desde la aplicación
 
 ## Getting Started
 
-Permite enviar Mensaje de texto desde a aplicacion solicitando permiso de SMS 
+Permite el envio SMS sin salir desde la aplicacion utilizando el permiso de envio SMS
 
 Disponible solo para android
-
-## Donations (Optional)
-
-Autor Mauricio Huertas
