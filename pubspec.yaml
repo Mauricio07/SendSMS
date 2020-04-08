@@ -1,6 +1,6 @@
 name: sendsms
 description: Permite el envio SMS sin salir desde la aplicacion utilizando el permiso de envio SMS
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/Mauricio07/SendSMS
 
 environment:

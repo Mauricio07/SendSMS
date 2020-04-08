@@ -35,32 +35,50 @@ public class SendsmsPlugin implements MethodCallHandler {
         channel.setMethodCallHandler(new SendsmsPlugin(registrar.activity(), channel));
     }
 
-    
+
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
 
-        // Solicitud de Permiso
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SEND_SMS,}, 1000);
-        }
+        if (call.method.equals("getPermission")) {
 
-        if (call.method.equals("sendSMS")) {
-            try {
-                // Data
-                String phoneNumber = call.argument("phoneNumber").toString();
-                String message = call.argument("message").toString();
+            result.success(onSolicitudPermiso());
 
-                SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+        } else if (call.method.equals("sendSMS")) {
+            boolean enviado=false;
+            if (handlerPermission()){
+                try {
+                    // Data
+                    String phoneNumber = call.argument("phoneNumber").toString();
+                    String message = call.argument("message").toString();
 
-                Log.d("Succes", "ok");
-            } catch (Exception er) {
-                Log.d("Error", "ERROR " + er.getMessage());
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+
+                    Log.d("Succes", "ok");
+                    enviado = true;
+                } catch (Exception er) {
+                    Log.d("Error", "ERROR " + er.getMessage());
+                    enviado = false;
+                }
             }
+            result.success(enviado);
         } else {
             result.notImplemented();
         }
+    }
 
+
+    public boolean onSolicitudPermiso() {
+        // Solicitud de Permiso
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SEND_SMS,}, 1000);
+            return false;
+        }
+        return  true;
+    }
+
+    public boolean handlerPermission(){
+        return (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED);
     }
 
 }
